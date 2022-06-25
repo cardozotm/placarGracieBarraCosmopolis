@@ -1,66 +1,79 @@
 // set inital value to zero
-let count = 0;
+let countP1 = 0;
+let countP2 = 0;
+
 // select value and buttons
 const valueP1 = document.querySelector("#valueP1");
 const valueP2 = document.querySelector("#valueP2");
 
-const btnsP1 = document.querySelectorAll(".btnP1");
-const btnsP2 = document.querySelectorAll(".btnP2");
+const btns = document.querySelectorAll(".btn");
 
-btnsP2.forEach(function (btn) {
+btns.forEach(function (btn) {
+  console.log(btn)
 
   btn.addEventListener("click", function (e) {
-    const styles = e.currentTarget.classList; // Qual o botão
+    
+    const styles = e.currentTarget.classList[1]; // Qual o botão
+    const board = styles.slice(-2);
+    const action = styles.slice(0,styles.length -2)
    
-    if (styles.contains("decreaseP2")) {
-      count--;
-    } else if (styles.contains("increaseP2")) {
-      count++;
-    } else {
-      count = 0;
+    acountAndPaint(board,action);
+
+    valueP1.textContent = countP1;
+    valueP2.textContent = countP2;
+
+  });
+
+});
+
+function acountAndPaint(board, action) {
+
+  if(board == 'P1') {
+    switch (action) {
+      case "increase":
+        countP1++;
+        break;
+      case "decrease":
+        countP1--;
+        break;
+      default:
+        countP1 = 0
     }
 
-    if (count > 0) {
+      if (countP1 > 0) {
+        valueP1.style.color = "green";
+      }
+      if (countP1 < 0) {
+        valueP1.style.color = "red";
+      }
+      if (countP1 === 0) {
+        valueP1.style.color = "#222";
+      }
+
+  }
+
+  if(board == 'P2') {
+    switch (action) {
+      case "increase":
+        countP2++;
+        break;
+      case "decrease":
+        countP2--;
+        break;
+      default:
+        countP2 = 0
+    }
+
+    if (countP2 > 0) {
       valueP2.style.color = "green";
     }
-    if (count < 0) {
+    if (countP2 < 0) {
       valueP2.style.color = "red";
     }
-    if (count === 0) {
+    if (countP2 === 0) {
       valueP2.style.color = "#222";
     }
 
-    valueP2.textContent = count;
+  }
 
-  });
-
-});
-
-btnsP2.forEach(function (btn) {
-
-  btn.addEventListener("click", function (e) {
-    const styles = e.currentTarget.classList; // Qual o botão
-   
-    if (styles.contains("decreaseP1")) {
-      count--;
-    } else if (styles.contains("increaseP1")) {
-      count++;
-    } else {
-      count = 0;
-    }
-
-    if (count > 0) {
-      valueP1.style.color = "green";
-    }
-    if (count < 0) {
-      valueP1.style.color = "red";
-    }
-    if (count === 0) {
-      valueP1.style.color = "#222";
-    }
-
-    valueP1.textContent = count;
-
-  });
-
-});
+}
